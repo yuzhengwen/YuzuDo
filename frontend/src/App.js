@@ -2,6 +2,9 @@ import logo from './logo.svg';
 import React from 'react';
 import './App.css';
 
+const isDev = process.env.NODE_ENV === 'development';
+const baseURL = isDev ? process.env.REACT_APP_BASE_URL_LOCAL : process.env.REACT_APP_BASE_URL_PROD;
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -42,7 +45,8 @@ class App extends React.Component {
   }
   fetchTasks() {
     console.log('Fetching...');
-    fetch('http://localhost:8000/api/task-list/')
+    //fetch('http://localhost:8000/api/task-list/')
+    fetch(`${baseURL}task-list/`)
       .then(response => response.json())
       .then(data => {
         console.log('Data:', data);
@@ -70,9 +74,9 @@ class App extends React.Component {
     console.log('ITEM:', this.state.activeItem);
 
     const csrftoken = this.getCookie('csrftoken');
-    let url = 'http://localhost:8000/api/task-create/';
+    let url = `{baseURL}/api/task-create/`;
     if (this.state.editing === true) {
-      url = `http://localhost:8000/api/task-update/${this.state.activeItem.id}/`;
+      url = `${baseURL}task-update/${this.state.activeItem.id}/`;
       this.setState({
         editing: false
       });
@@ -107,7 +111,7 @@ class App extends React.Component {
   }
   deleteTask(task){
     const csrftoken = this.getCookie('csrftoken');
-    fetch(`http://localhost:8000/api/task-delete/${task.id}/`, {
+    fetch(`${baseURL}task-delete/${task.id}/`, {
       method: 'DELETE',
       headers: {
         'Content-type': 'application/json',
@@ -121,7 +125,7 @@ class App extends React.Component {
   toggleCompletion(task){
     task.completed = !task.completed;
     const csrftoken = this.getCookie('csrftoken');
-    let url = `http://localhost:8000/api/task-update/${task.id}/`;
+    let url = `${baseURL}task-update/${task.id}/`;
     fetch(url, {
       method: 'POST',
       headers: {
