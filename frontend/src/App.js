@@ -74,7 +74,7 @@ class App extends React.Component {
     console.log('ITEM:', this.state.activeItem);
 
     const csrftoken = this.getCookie('csrftoken');
-    let url = `${baseURL}api/task-create/`;
+    let url = `${baseURL}task-create/`;
     if (this.state.editing === true) {
       url = `${baseURL}task-update/${this.state.activeItem.id}/`;
       this.setState({
