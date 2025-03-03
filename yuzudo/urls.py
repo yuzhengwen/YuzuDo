@@ -21,7 +21,10 @@ from django.views.generic import TemplateView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('api.urls')),
-    path('', TemplateView.as_view(template_name='index.html')),
+
+    # path('', TemplateView.as_view(template_name='index.html')),
+
     # Generic view for the index.html file
     # Alternatively can create a FrontendView class in views.py and send HttpResponse with the index.html file
+    # For development purposes, the index.html file is collected from the frontend/build directory then served
 ]
